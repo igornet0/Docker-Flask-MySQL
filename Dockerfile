@@ -1,15 +1,12 @@
 # specify the image you want to use build docker image
 
-FROM python:2.7
-
-# Maintainer name to let people know who made this image.
-
-MAINTAINER Kartik <kartik@gmail.com>
+FROM python:latest
 
 #apt is the ubuntu command line tool for advanced packaging tool(APT) for sw upgrade '''
 
 RUN apt update && \
-    apt install -y netcat-openbsd
+    apt install -y netcat-openbsd && \
+    apt install -y dos2unix
 
 # set the env variable to tell where the app will be installed inside the docker
 
@@ -29,5 +26,7 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN chmod +x /Photos-Docker-Flask/docker-entrypoint.sh
+
+RUN dos2unix /Photos-Docker-Flask/docker-entrypoint.sh
 
 CMD ["/bin/bash", "/Photos-Docker-Flask/docker-entrypoint.sh"]
